@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "=== Server Status Check ==="
+echo ""
+echo "Backend (Port 8000):"
+curl -s http://localhost:8000/health 2>&1 | head -1 || echo "❌ Backend not responding"
+echo ""
+echo "Frontend (Port 3000):"
+curl -s http://localhost:3000 > /dev/null 2>&1 && echo "✅ Frontend is running" || echo "❌ Frontend not responding"
+echo ""
+echo "Running processes:"
+ps aux | grep -E "(uvicorn|next dev)" | grep -v grep | wc -l | xargs echo "Active processes:"
